@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Roblox Account Stealer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ESTILOS DE ANIMAÇÃO E BASE */
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); } 50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.8); } 100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); } }
+
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; color: #fff; font-family: 'Rajdhani', sans-serif; }
+
+        /* OVERLAY DA TRANSIÇÃO DE PIXELS */
+        #pixel-transition {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            display: grid; grid-template-columns: repeat(20, 1fr); grid-template-rows: repeat(20, 1fr);
+            z-index: 9999; pointer-events: none;
+        }
+        .pixel-block { background: #fff; transition: opacity 0.5s ease, transform 0.5s ease; }
+
+        /* BACKGROUND VIDEO */
+        .video-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; }
+        .video-background iframe { width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.77vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.35; }
+
+        /* INTERFACE PRINCIPAL */
+        .main-content { display: flex; justify-content: center; align-items: center; height: 100vh; opacity: 0; animation: fadeInScale 1s ease forwards; animation-delay: 0.8s; }
+        
+        .container { 
+            border: 2px solid #fff; padding: 40px; border-radius: 20px; 
+            background: rgba(10, 10, 10, 0.9); text-align: center; width: 380px;
+            animation: pulseGlow 3s infinite ease-in-out; backdrop-filter: blur(8px);
+        }
+
+        h2 { font-family: 'Orbitron', sans-serif; text-transform: uppercase; text-shadow: 0 0 10px #fff; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 8px; border: 1px solid #fff; background: rgba(255,255,255,0.1); color: #fff; outline: none; }
+
+        .btn-main, .btn-info { cursor: pointer; font-family: 'Orbitron', sans-serif; background: #111; color: #fff; border: 2px solid #fff; border-radius: 50px; transition: 0.4s; }
+        .btn-main:hover, .btn-info:hover { background: #fff; color: #000; box-shadow: 0 0 30px #fff; }
+        .btn-main { width: 100%; padding: 12px 25px; }
+        .btn-info { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 10px 30px; }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
+        .modal-content { background: #111; padding: 30px; border: 2px solid #fff; width: 450px; border-radius: 15px; position: relative; box-shadow: 0 0 40px rgba(255,255,255,0.4); }
+        .close { color: #fff; position: absolute; right: 20px; top: 15px; font-size: 28px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="pixel-transition"></div>
+
+    <div class="video-background">
+        <iframe src="https://www.youtube.com/embed/9vntypeV5QU?autoplay=1&mute=1&loop=1&playlist=9vntypeV5QU&controls=0&showinfo=0" frameborder="0"></iframe>
+    </div>
+
+    <div class="main-content">
+        <div class="container" id="mainContainer">
+            <h2>System Stealer</h2>
+            <p>Aguardando Injeção de Token</p>
+            <input type="text" id="userToken" placeholder="_|WARNING:-DO-NOT-SHARE-THIS...">
+            <button class="btn-main" onclick="enviarToken()">AUTENTICAR</button>
+        </div>
+    </div>
+
+    <button class="btn-info" onclick="abrirModal()">INFO. DO SISTEMA</button>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h3 style="font-family:'Orbitron'">DETALHES DA OPERAÇÃO</h3>
+            <p><strong>Status:</strong> Ativo e Criptografado.</p>
+            <p><strong>Interface:</strong> Pixel-Transition Ready.</p>
+        </div>
+    </div>
+
+    <script>
+        // LÓGICA DA TRANSIÇÃO DE PIXELS
+        const grid = document.getElementById('pixel-transition');
+        const totalPixels = 400; // 20x20
+
+        // Criar os blocos
+        for (let i = 0; i < totalPixels; i++) {
+            const block = document.createElement('div');
+            block.classList.add('pixel-block');
+            grid.appendChild(block);
+        }
+
+        // Animar a saída dos blocos
+        window.addEventListener('load', () => {
+            const blocks = Array.from(document.querySelectorAll('.pixel-block'));
+            // Embaralhar a ordem de desaparecimento
+            const shuffled = blocks.sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach((block, index) => {
+                setTimeout(() => {
+                    block.style.opacity = '0';
+                    block.style.transform = 'scale(0.8)';
+                }, index * 4); // Velocidade da transição
+            });
+
+            // Remover o container da transição após terminar
+            setTimeout(() => {
+                grid.style.display = 'none';
+            }, 2000);
+        });
+
+        function abrirModal() { document.getElementById("infoModal").style.display = "flex"; }
+        function fecharModal() { document.getElementById("infoModal").style.display = "none"; }
+        function enviarToken() {
+            const tokenValue = document.getElementById('userToken').value;
+            if (/^_\|WARNING:-DO-NOT-SHARE-THIS/.test(tokenValue)) {
+                document.getElementById('mainContainer').innerHTML = `<h3 style="font-family:'Orbitron'">PROCESSANDO...</h3><p>Validando acesso...</p>`;
+            } else { alert("ERRO: Formato inválido!"); }
+        }
+    </script>
+</body>
+</html>
